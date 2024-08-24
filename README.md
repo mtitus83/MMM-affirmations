@@ -6,6 +6,10 @@ This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror
 
 This module was developed with the assistance of AI technology. While efforts have been made to ensure its functionality and reliability, users should be aware of its AI-assisted origin.
 
+## Support Disclaimer
+
+Please note that this module is provided as-is, without official support from the developer. While efforts have been made to ensure its functionality, users should use this module at their own discretion and risk. Contributions and issue reports from the community are welcome, but timely responses or fixes cannot be guaranteed.
+
 ## Features
 
 - Retrieves random affirmations from the [Affirmations API](https://github.com/annthurium/affirmations)
@@ -64,7 +68,7 @@ You can customize the appearance of the module by modifying the `MMM-affirmation
 
 ## Contributing
 
-If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository.
+If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. However, please be aware that due to the nature of this project, responses or fixes may not be immediate.
 
 ## License
 
