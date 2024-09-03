@@ -1,38 +1,43 @@
 var NodeHelper = require("node_helper");
-var https = require("https");
+var fs = require("fs");
 
 module.exports = NodeHelper.create({
     start: function() {
         console.log("MMM-affirmations: NodeHelper started");
+        this.affirmations = [];
+        this.loadAffirmations();
+    },
+
+    loadAffirmations: function() {
+        var self = this;
+        fs.readFile("affirmations.txt", "utf8", function(err, data) {
+            if (err) {
+                console.error("MMM-affirmations: NodeHelper error loading affirmations:", err.message);
+                self.sendSocketNotification("AFFIRMATION_ERROR", "Error loading affirmations");
+            } else {
+                try {
+                    self.affirmations = data.split("\n").filter(line => line.trim() !== "");
+                    console.log("MMM-affirmations: NodeHelper loaded affirmations:", self.affirmations);
+                    self.sendSocketNotification("AFFIRMATIONS_LOADED");
+                } catch (error) {
+                    console.error("MMM-affirmations: NodeHelper error parsing affirmations:", error);
+                    self.sendSocketNotification("AFFIRMATION_ERROR", "Error parsing affirmations");
+                }
+            }
+        });
     },
 
     getAffirmation: function() {
         console.log("MMM-affirmations: NodeHelper getAffirmation called");
-        var self = this;
-
-        https.get("https://www.affirmations.dev", (resp) => {
-            let data = '';
-
-            resp.on('data', (chunk) => {
-                data += chunk;
-            });
-
-            resp.on('end', () => {
-                try {
-                    console.log("MMM-affirmations: NodeHelper received raw data:", data);
-                    const affirmation = JSON.parse(data).affirmation;
-                    console.log("MMM-affirmations: NodeHelper parsed affirmation:", affirmation);
-                    self.sendSocketNotification("AFFIRMATION_RESULT", affirmation);
-                } catch (error) {
-                    console.error("MMM-affirmations: NodeHelper error parsing affirmation data:", error);
-                    self.sendSocketNotification("AFFIRMATION_ERROR", "Error parsing data");
-                }
-            });
-
-        }).on("error", (err) => {
-            console.error("MMM-affirmations: NodeHelper error fetching affirmation:", err.message);
-            self.sendSocketNotification("AFFIRMATION_ERROR", err.message);
-        });
+        if (this.affirmations.length > 0) {
+            const randomIndex = Math.floor(Math.random() * this.affirmations.length);
+            const affirmation = this.affirmations[randomIndex];
+            console.log("MMM-affirmations: NodeHelper selected affirmation:", affirmation);
+            this.sendSocketNotification("AFFIRMATION_RESULT", affirmation);
+        } else {
+            console.error("MMM-affirmations: NodeHelper no affirmations available");
+            this.sendSocketNotification("AFFIRMATION_ERROR", "No affirmations available");
+        }
     },
 
     socketNotificationReceived: function(notification, payload) {
