@@ -5,7 +5,6 @@ Module.register("MMM-affirmations", {
     },
 
     start: function() {
-        console.log("MMM-affirmations: Starting module");
         this.affirmation = "Waiting for affirmation...";
         this.loaded = false;
         this.scheduleUpdate();
@@ -16,7 +15,6 @@ Module.register("MMM-affirmations", {
     },
 
     getDom: function() {
-        console.log("MMM-affirmations: Updating DOM");
         var wrapper = document.createElement("div");
         wrapper.className = "affirmations-wrapper";
 
@@ -26,12 +24,10 @@ Module.register("MMM-affirmations", {
 
         wrapper.appendChild(affirmationElement);
 
-        console.log("MMM-affirmations: DOM updated with affirmation: " + this.affirmation);
         return wrapper;
     },
 
     scheduleUpdate: function() {
-        console.log("MMM-affirmations: Scheduling update");
         var self = this;
         setInterval(function() {
             self.updateAffirmation();
@@ -42,14 +38,11 @@ Module.register("MMM-affirmations", {
     },
 
     updateAffirmation: function() {
-        console.log("MMM-affirmations: Requesting new affirmation");
         this.sendSocketNotification("GET_AFFIRMATION");
     },
 
     socketNotificationReceived: function(notification, payload) {
-        console.log("MMM-affirmations: Received socket notification: " + notification);
         if (notification === "AFFIRMATION_RESULT") {
-            console.log("MMM-affirmations: Received new affirmation: " + payload);
             this.affirmation = payload;
             this.updateDom(this.config.fadeSpeed);
         } else if (notification === "AFFIRMATION_ERROR") {

@@ -1,6 +1,6 @@
 # MMM-affirmations
 
-This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/) project that displays random affirmations from the [Affirmations API](https://www.affirmations.dev/).
+This is a module for the [MagicMirror²](https://github.com/MichMich/MagicMirror/) project that displays random affirmations from a local text file. It includes over 100 positive affirmations to brighten your day.
 
 ## AI Disclaimer
 
@@ -12,10 +12,10 @@ Please note that this module is provided as-is, without official support from th
 
 ## Features
 
-- Retrieves random affirmations from the [Affirmations API](https://github.com/annthurium/affirmations)
+- Retrieves random affirmations from a local text file containing over 100 affirmations
 - Displays affirmations with a fade in/out effect
 - Configurable update interval and fade speed
-- Uses a node helper for efficient API requests
+- Uses a node helper for efficient affirmation selection
 
 ## Installation
 
@@ -57,23 +57,18 @@ Add the following configuration to your `config/config.js` file:
 
 ## How It Works
 
-1. The node helper fetches a random affirmation from the [Affirmations API](https://github.com/annthurium/affirmations).
-2. The affirmation is sent to the main module and displayed with a fade-in effect.
-3. The affirmation remains visible for the configured `updateInterval`.
-4. The process repeats with a new affirmation.
+1. The node helper loads affirmations from the `affirmations.txt` file in the module directory.
+2. When requested, the node helper selects a random affirmation from the loaded list.
+3. The affirmation is sent to the main module and displayed with a fade-in effect.
+4. The affirmation remains visible for the configured `updateInterval`.
+5. The process repeats with a new affirmation.
 
 ## Customization
 
 You can customize the appearance of the module by modifying the `MMM-affirmations.css` file in the module directory.
 
+To add, remove, or modify affirmations, edit the `affirmations.txt` file in the module directory. Each affirmation should be on a new line.
+
 ## Contributing
 
 If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request on the GitHub repository. However, please be aware that due to the nature of this project, responses or fixes may not be immediate.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Acknowledgements
-
-This module uses the [Affirmations API](https://github.com/annthurium/affirmations) created by [annthurium](https://github.com/annthurium). We appreciate their work in providing this free and open API for positive affirmations. The API can be accessed at [https://www.affirmations.dev/](https://www.affirmations.dev/).
